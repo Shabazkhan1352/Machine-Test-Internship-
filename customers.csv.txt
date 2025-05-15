@@ -1,6 +1,0 @@
-Name,Email,Phone,Location
-John Doe,john@example.com,1234567890,New York
-Jane Smith,jane.smith@example.com,9876543210,Los Angeles
-Bob Johnson,bob.j@example.com,4567891230,Chicago
-Alice Brown,alice.brown@example.com,7891234560,Houston
-Charlie White,charlie.w@example.com,3216549870,Phoenix
