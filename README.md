@@ -58,7 +58,7 @@ npm install
 ```
 PORT=5000
 MONGO_URI=mongodb+srv://Shabaz:Khan2004@internship.q5raad3.mongodb.net/
-JWT_SECRET=<your_your_jwt_secret12345
+JWT_SECRET=your_your_jwt_secret12345
 ```
 
 
@@ -161,7 +161,7 @@ npm start
 ## Demo Video
 
 You can watch a working demo video of this application here:  
-[Google Drive Demo Video Link](<your_google_drive_link_here>)
+[Google Drive Demo Video Link]  : https://drive.google.com/file/d/1b0UmRY2zwzARjkf0RZUYpTzNZeB1TdcO/view?usp=drive_link
 
 ---
 
