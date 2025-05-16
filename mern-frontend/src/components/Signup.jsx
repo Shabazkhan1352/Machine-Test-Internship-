@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import API from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -10,19 +10,19 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post('/auth/login', { email, password });
+      const res = await API.post('/auth/register-admin', { email, password });
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err) {
-      alert('Login failed');
+      alert('Signup failed');
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4">
       <div className="w-full max-w-md bg-gray-800 rounded-xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-center mb-2 uppercase">Login</h2>
-        <p className="text-gray-400 text-sm text-center mb-6">Please enter your login and password!</p>
+        <h2 className="text-2xl font-bold text-center mb-2 uppercase">Create Account as Admin</h2>
+        <p className="text-gray-400 text-sm text-center mb-6">Please enter new Credentials!</p>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
@@ -57,7 +57,7 @@ function Login() {
             type="submit"
             className="w-full py-2 mt-2 bg-white text-gray-900 font-semibold rounded-md hover:bg-gray-200 transition"
           >
-            Login
+            Create Admin
           </button>
         </form>
 
@@ -68,11 +68,11 @@ function Login() {
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-400">
-          Don't have an account? <a href="/signup" className="text-blue-400 hover:underline">Sign Up</a>
+          Already have an account? <a href="/" className="text-blue-400 hover:underline">Sign In</a>
         </p>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Signup;

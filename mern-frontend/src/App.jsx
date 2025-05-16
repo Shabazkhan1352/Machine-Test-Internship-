@@ -8,6 +8,7 @@ import Dashboard from './Dashboard'
 import UploadList from './components/UploadList'
 import AgentListView from './components/AgentListView'
 import AgentForm from './components/AgentForm'
+import Signup from './components/Signup'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add-agent" element={<AgentForm />} />
           <Route path="/upload" element={<UploadList />} />
