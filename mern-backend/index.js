@@ -6,6 +6,8 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import agentRoutes from './routes/agentRoutes.js';
 import listRoutes from './routes/listRoutes.js';
+import sublistRoutes from './routes/sublistRoutes.js'
+import subAgentRoutes from './routes/subAgentRoutes.js'
 
 dotenv.config();
 
@@ -15,7 +17,9 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/agents', agentRoutes);
+app.use('/api/subagents', subAgentRoutes);
 app.use('/api/lists', listRoutes);
+app.use('/api/sublists', sublistRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const listItemSchema = new mongoose.Schema({
+const SublistItemSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   phone: { type: String, required: true },
   notes: { type: String },
@@ -11,4 +11,4 @@ const listItemSchema = new mongoose.Schema({
 },
 });
 
-export default mongoose.model('ListItem', listItemSchema);
+export default mongoose.model('SubListItem', SublistItemSchema);

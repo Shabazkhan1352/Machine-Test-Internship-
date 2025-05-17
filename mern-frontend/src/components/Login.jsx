@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import API from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const {login} = useAuth()
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await API.post('/auth/login', { email, password });
-      localStorage.setItem('token', res.data.token);
+      login(res.data.token)
       navigate('/dashboard');
     } catch (err) {
       alert('Login failed');
@@ -21,7 +23,7 @@ function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4">
       <div className="w-full max-w-md bg-gray-800 rounded-xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-center mb-2 uppercase">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-2 uppercase"> Admin Login</h2>
         <p className="text-gray-400 text-sm text-center mb-6">Please enter your login and password!</p>
 
         <form onSubmit={handleLogin} className="space-y-4">
@@ -66,7 +68,7 @@ function Login() {
           <a href="#!" className="text-white hover:text-blue-400 transition"><i className="fab fa-twitter"></i></a>
           <a href="#!" className="text-white hover:text-red-500 transition"><i className="fab fa-google"></i></a>
         </div>
-
+    <p className="mt-6 text-center text-sm text-gray-400">Agent ? <a className='hover:underline' href="/agentlogin">Login Here</a> </p>
         <p className="mt-6 text-center text-sm text-gray-400">
           Don't have an account? <a href="/signup" className="text-blue-400 hover:underline">Sign Up</a>
         </p>

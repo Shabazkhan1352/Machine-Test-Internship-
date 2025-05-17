@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import API from '../services/api';
+import API from '../../services/api';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
-import Navbar from './Navbar';
-
-function AgentListView() {
+import { useAuth } from '../../AuthContext';
+import Navbar from '../Navbar';
+function SubAgentListView() {
     const [agents, setAgents] = useState([]);
     const [selectedAgent, setSelectedAgent] = useState(null);
     const [listItems, setListItems] = useState([]);
@@ -14,7 +13,7 @@ function AgentListView() {
     useEffect(() => {
         const fetchAgents = async () => {
             try {
-                const res = await API.get('/agents');
+                const res = await API.get('/subagents');
                 setAgents(res.data);
             } catch (err) {
                 alert('Failed to load agents');
@@ -26,7 +25,7 @@ function AgentListView() {
     const handleSelect = async (agentId) => {
         setSelectedAgent(agentId);
         try {
-            const res = await API.get(`/lists/agent/${agentId}`);
+            const res = await API.get(`/sublists/agent/${agentId}`);
             setListItems(res.data);
         } catch (err) {
             alert('Failed to load assigned list');
@@ -34,9 +33,10 @@ function AgentListView() {
     };
 
     return (
-        <>{isAuthenticated ? <div className='flex flex-col'>
-            <Navbar/>
-               <div className="min-h-screen bg-gray-100 px-4 py-8">
+        <>{isAuthenticated ?
+            <div className='flex flex-col'>
+                <Navbar/>
+                <div className="min-h-screen bg-gray-100 px-4 py-8">
             <button
                 onClick={() => navigate(-1)}
                 className="mb-6 text-blue-600 hover:text-blue-800 font-semibold flex items-center"
@@ -87,8 +87,8 @@ function AgentListView() {
                 )}
             </div>
         </div>
-        </div>
-      :<div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
+            </div>
+         :<div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
             <h1 className='font-bold '>Please Login to View the Page </h1>
               <button onClick={ ()=>{
                 navigate('/')
@@ -99,4 +99,4 @@ function AgentListView() {
     );
 }
 
-export default AgentListView;
+export default SubAgentListView;

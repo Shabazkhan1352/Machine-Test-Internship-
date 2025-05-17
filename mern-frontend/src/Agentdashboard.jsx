@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import Navbar from './components/Navbar';
 
-function Dashboard() {
+function AgentDashboard() {
   const navigate = useNavigate();
   const { logout , isAuthenticated} = useAuth();
 
@@ -13,12 +13,13 @@ function Dashboard() {
   };
 
   return (
-    <> {isAuthenticated ? <div className='flex flex-col'>
-      <Navbar/>
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+    <> {isAuthenticated ?
+        <div className='flex flex-col'>
+            <Navbar/>
+             <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="w-full max-w-2xl bg-white rounded-xl shadow-md p-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Admin Dashboard</h2>
+          <h2 className="text-2xl font-bold text-gray-800">Agent Dashboard</h2>
           <button
             onClick={handleLogout}
             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
@@ -30,15 +31,15 @@ function Dashboard() {
         <ul className="space-y-4">
           <li>
             <Link
-              to="/add-agent"
+              to="/add-subagent"
               className="block w-full text-center px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
             >
-              ➕ Add Agent
+              ➕ Add Sub Agent
             </Link>
           </li>
           <li>
             <Link
-              to="/upload"
+              to="/agentupload"
               className="block w-full text-center px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
             >
               📤 Upload & Distribute List
@@ -46,7 +47,7 @@ function Dashboard() {
           </li>
           <li>
             <Link
-              to="/view"
+              to="/agentview"
               className="block w-full text-center px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
             >
               👀 View Agent Lists
@@ -55,7 +56,8 @@ function Dashboard() {
         </ul>
       </div>
     </div>
-    </div>  :<div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
+        </div>
+      :<div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
             <h1 className='font-bold '>Please Login to View the Page </h1>
               <button onClick={ ()=>{
                 navigate('/')
@@ -66,4 +68,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default AgentDashboard;

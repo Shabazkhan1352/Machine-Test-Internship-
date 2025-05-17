@@ -1,6 +1,6 @@
 import xlsx from 'xlsx';
-import ListItem from '../models/ListItem.js';
-import Agent from '../models/Agent.js';
+import SubListitem from '../models/SubListitem.js';
+import SubAgent from '../models/SubAgent.js';
 
 // Helper function to parse uploaded file (CSV or Excel)
 const parseFile = async (buffer, originalname) => {
@@ -62,7 +62,7 @@ export const uploadList = async (req, res) => {
       assignedBy: uploaderId
     }));
 
-    const createdItems = await ListItem.insertMany(listItemsWithUploader);
+    const createdItems = await SubListitem.insertMany(listItemsWithUploader);
 
     res.status(201).json({ message: 'List uploaded successfully', count: createdItems.length });
   } catch (err) {
@@ -75,10 +75,10 @@ export const uploadList = async (req, res) => {
 // Distribute list items equally among agents
 export const distributeLists = async (req, res) => {
   try {
-    const agents = await Agent.find();
+    const agents = await SubAgent.find();
     if (agents.length < 1) return res.status(400).json({ message: 'No agents found' });
 
-    const items = await ListItem.find({ assignedTo: { $exists: false } });
+    const items = await SubListitem.find({ assignedTo: { $exists: false } });
     if (items.length === 0) return res.status(200).json({ message: 'No unassigned items' });
 
     let assigned = [];
@@ -96,7 +96,7 @@ export const distributeLists = async (req, res) => {
       }
     }));
 
-    await ListItem.bulkWrite(bulkOps);
+    await SubListitem.bulkWrite(bulkOps);
 
     res.status(200).json({ message: 'Distributed', total: items.length });
   } catch (err) {
@@ -108,7 +108,7 @@ export const distributeLists = async (req, res) => {
 export const getAgentList = async (req, res) => {
   try {
     const agentId = req.params.agentId;
-    const data = await ListItem.find({ assignedTo: agentId });
+    const data = await SubListitem.find({ assignedTo: agentId });
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ message: 'Fetch failed', error: err.message });
@@ -122,14 +122,14 @@ export const distributeToSubagents = async (req, res) => {
     const agentId = req.user.id; // Logged-in agent's ID
 
     // Get all subagents created by this agent
-    const subagents = await Agent.find({ createdBy: agentId });
+    const subagents = await SubAgent.find({ createdBy: agentId });
 
     if (subagents.length === 0) {
       return res.status(400).json({ message: 'No subagents found' });
     }
 
     // Get unassigned items uploaded by this agent
-    const items = await ListItem.find({ assignedBy: agentId, assignedTo: { $exists: false } });
+    const items = await SubListitem.find({ assignedBy: agentId, assignedTo: { $exists: false } });
 
     if (items.length === 0) {
       return res.status(200).json({ message: 'No unassigned items to distribute' });
@@ -150,7 +150,7 @@ export const distributeToSubagents = async (req, res) => {
       }
     }));
 
-    await ListItem.bulkWrite(bulkOps);
+    await SubListitem.bulkWrite(bulkOps);
 
     res.status(200).json({ message: 'Distributed to subagents', total: items.length });
   } catch (err) {
@@ -158,13 +158,12 @@ export const distributeToSubagents = async (req, res) => {
   }
 };
 
-
 // Delete a list item by ID
 export const deleteListItem = async (req, res) => {
   try {
     const { agentId } = req.params;
 
-    const deleted = await ListItem.findByIdAndDelete(agentId);
+    const deleted = await SubListitem.findByIdAndDelete(agentId);
 
     if (!deleted) {
       return res.status(404).json({ message: 'Item not found' });

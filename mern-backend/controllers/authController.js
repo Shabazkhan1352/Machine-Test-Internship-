@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-
+import Agent from '../models/Agent.js';
+import SubAgent from '../models/SubAgent.js';
 // Admin Signup
 export const registerAdmin = async (req, res) => {
   const { email, password } = req.body;
@@ -50,3 +51,18 @@ export const login = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 };
+
+
+export const loginAgent = async (req, res) => {
+  const { email, password } = req.body;
+  const agent = await Agent.findOne({ email });
+
+  if (!agent) return res.status(404).json({ message: 'Agent not found' });
+
+  const isMatch = await bcrypt.compare(password, agent.password);
+  if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+
+  const token = jwt.sign({ id: agent._id, role: 'agent' }, process.env.JWT_SECRET, { expiresIn: '1d' });
+  res.status(200).json({ token, agentId: agent._id });
+};
+

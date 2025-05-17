@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import API from '../services/api';
+import API from '../../services/api';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
-import Navbar from './Navbar';
-
-function UploadList() {
+import { useAuth } from '../../AuthContext';
+import Navbar from '../Navbar';
+function AgentUploadList() {
     const [file, setFile] = useState(null);
     const navigate = useNavigate();
     const {isAuthenticated} = useAuth()
@@ -21,13 +20,13 @@ function UploadList() {
         formData.append('file', file);
 
         try {
-            const uploadRes = await API.post('/lists/upload', formData);
+            const uploadRes = await API.post('/sublists/upload', formData);
             alert(`File uploaded! Total items: ${uploadRes.data.count}`);
 
-            const distRes = await API.post('/lists/distribute');
+            const distRes = await API.post('/sublists/distribute');
             alert(`Distributed ${distRes.data.total} items`);
 
-            navigate('/dashboard');
+            navigate('/Agentdashboard');
         } catch (err) {
             console.error(err);
             alert('Upload or distribution failed');
@@ -37,7 +36,7 @@ function UploadList() {
     return (
         <>{isAuthenticated ? <div className='flex flex-col'>
             <Navbar/>
-            <div className="min-h-screen bg-gray-100 flex flex-col px-4 py-8">
+             <div className="min-h-screen bg-gray-100 flex flex-col px-4 py-8">
              <button
                 onClick={() => navigate(-1)}
                 className="mb-6 text-blue-600 hover:text-blue-800 font-semibold flex items-center"
@@ -66,7 +65,7 @@ function UploadList() {
             </div>
         </div>
         </div>
-        </div>  :<div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
+        </div> :<div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
             <h1 className='font-bold '>Please Login to View the Page </h1>
               <button onClick={ ()=>{
                 navigate('/')
@@ -77,4 +76,4 @@ function UploadList() {
     );
 }
 
-export default UploadList;
+export default AgentUploadList;

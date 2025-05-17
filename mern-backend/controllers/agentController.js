@@ -26,3 +26,24 @@ export const getAllAgents = async (req, res) => {
     res.status(500).json({ message: 'Server error', err });
   }
 };
+
+
+// subagents
+
+export const createSubAgent = async (req, res) => {
+  const { name, email, mobile, password } = req.body;
+  const agentId = req.user.id;
+
+  try {
+    const existing = await Agent.findOne({ email });
+    if (existing) return res.status(400).json({ message: 'Email already exists' });
+
+    const hashed = await bcrypt.hash(password, 10);
+    const subagent = new Agent({ name, email, mobile, password: hashed, createdBy: agentId });
+
+    await subagent.save();
+    res.status(201).json({ message: 'Subagent created', subagent });
+  } catch (err) {
+    res.status(500).json({ message: 'Error creating subagent', error: err.message });
+  }
+};

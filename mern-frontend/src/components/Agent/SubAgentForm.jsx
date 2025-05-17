@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import API from '../services/api';
+import API from '../../services/api';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
-import Navbar from './Navbar';
-
-function AgentForm() {
+import { useAuth } from '../../AuthContext';
+import Navbar from '../Navbar';
+function SubAgentForm() {
     const {isAuthenticated} = useAuth()
     const [form, setForm] = useState({
         name: '',
@@ -21,9 +20,9 @@ function AgentForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await API.post('/agents', form);
-            alert('Agent created successfully!');
-            navigate('/dashboard');
+            await API.post('/subagents', form);
+            alert('SubAgent created successfully!');
+            navigate('/Agentdashboard');
         } catch (err) {
             alert('Failed to create agent');
         }
@@ -42,7 +41,7 @@ function AgentForm() {
         <div className=" mt-20 bg-gray-100 flex items-center justify-center px-4 py-8">
           
             <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Add New Agent</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Add New SubAgent</h3>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                     <input
                         name="name"
@@ -87,7 +86,8 @@ function AgentForm() {
                 </form>
             </div>
         </div>
-        </div> </div>  : <div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
+        </div>
+        </div>  : <div className='flex flex-col gap-5 justify-center items-center min-h-[100vh]'>
             <h1 className='font-bold '>Please Login to View the Page </h1>
               <button onClick={ ()=>{
                 navigate('/')
@@ -98,4 +98,4 @@ function AgentForm() {
     );
 }
 
-export default AgentForm;
+export default SubAgentForm;
